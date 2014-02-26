@@ -58,6 +58,7 @@ class TestEnvirement(object):
     def getLocalHostName():
         return  platform.node().upper()
 
+@unittest.skip("Is not ready yet")
 class TestSequencedCreateDelete(unittest.TestCase): 
     def _01_create_then_delete(self):
         ngpShell = NgpShell(TestEnvirement.getNgpShellDirrectory())
