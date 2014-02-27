@@ -6,6 +6,7 @@ Created on 24.01.2014
 import os
 import subprocess
 import shlex
+import ngpstate
 
 
 class NgpShellError(Exception):
@@ -34,7 +35,8 @@ class NgpShell(object):
         # Drop first line
         lines = result.split(os.linesep)[1:]
         # Parse each line
-        return dict((_parse_exec_mgr_status(line) for line  in lines))
+        results = dict(_parse_exec_mgr_status(line) for line  in lines)
+        return ngpstate.ExecManagerStatuses(results)
     
     def trader_list(self):
         command_line = 'ngpsh.exe --command trader list'
