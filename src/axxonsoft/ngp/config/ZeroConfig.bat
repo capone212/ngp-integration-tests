@@ -39,7 +39,8 @@ if errorlevel  1 (
 
 net start ngp_host_service
 if errorlevel 1 (
-  goto clean_fail
+REM uncomment it
+REM  goto clean_fail
 )
 
 echo CLEAN OK

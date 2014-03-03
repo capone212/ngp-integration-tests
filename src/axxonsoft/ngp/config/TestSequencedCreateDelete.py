@@ -5,15 +5,15 @@ Created on 24.01.2014
 '''
 
 import unittest
+import environment
 from rsg import RSGtool
 from ngpshell import NgpShell
-import environment
 from environment import TestEnvirement
 
 class TestSequencedCreateDelete(unittest.TestCase):
     
     def setUp(self):
-        #environment.clean_ngp_configuration()
+        environment.clean_ngp_configuration()
         pass
     
     def test_01_create_then_delete(self):
@@ -57,8 +57,7 @@ class TestSequencedCreateDelete(unittest.TestCase):
         self.assertEqual(initial_offers, post_offers,
                          "Published offers should be the same \
                          before and after. Mismatch offers %s" % 
-                         [(k) for k, v in initial_offers.items() 
-                          if post_offers[k] != v])
+                         post_offers.difference(initial_offers))
 
 if __name__ == '__main__':
     unittest.main()    

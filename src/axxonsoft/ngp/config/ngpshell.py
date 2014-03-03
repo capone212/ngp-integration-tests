@@ -27,7 +27,7 @@ class NgpShell(object):
     def repo_config_list(self):
         command_line = 'ngpsh.exe --command cfgrepo list'
         result = self._exec_tool(command_line)
-        return result.split(os.linesep)
+        return set(result.split(os.linesep))
     
     def exec_manager_statuses(self):
         command_line = 'ngpsh.exe --command execmgr statuses'
@@ -52,10 +52,12 @@ class NgpShell(object):
         # Drop first line
         lines = result.split(os.linesep)[1:]
         # Parse each line
-        return set(tuple(line.split()) for line in lines)
+        return [list(line.split()) for line in lines]
     
     def trader_query_all(self):
-        return dict((t, self.trader_query(t, True)) for t in self.trader_list())
+        results = dict((t, self.trader_query(t, True)) 
+                       for t in self.trader_list())
+        return ngpstate.Offers(results)
 
     def _exec_tool(self, command_line, quiet=False):
         if not quiet:
@@ -68,4 +70,6 @@ class NgpShell(object):
         
     def _get_ngpsh_path(self):
         return os.path.join(self.tool_dir, "ngpsh.exe")
+    
+
     
