@@ -1,8 +1,8 @@
-""'
+'''
 Created on 26.02.2014
 
 @author: anzor.apshev
-""'
+'''
 import platform
 import os
 import shlex
