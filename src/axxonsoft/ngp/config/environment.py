@@ -1,25 +1,31 @@
-'''
+""'
 Created on 26.02.2014
 
 @author: anzor.apshev
-'''
+""'
 import platform
 import os
 import shlex
 import subprocess
 import time
+import _winreg
 
 class TestEnvirement(object):
+
+    @staticmethod
+    def getInstallDir():
+        with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, "SOFTWARE\AxxonSoft\AxxonSmart\InstallPropertyInfo") as key:
+            return _winreg.QueryValueEx(key, u"InstallDir")[0]
     
     @staticmethod
     def getRsgDirectory():
-        return r"D:\temp\itest"
-        #return r"C:\Program Files (x86)\AxxonSoft\AxxonSmart\bin"
+        #return r"D:\temp\itest"
+        return getInstallDir() + "bin"
     
     @staticmethod
     def getNgpShellDirrectory():
-        return r"C:\Program Files (x86)\AxxonSoft\AxxonSmart\bin"
-    
+        return getInstallDir() + "bin"        
+            
     @staticmethod
     def getLocalHostName():
         return  platform.node().upper()
