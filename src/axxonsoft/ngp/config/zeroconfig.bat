@@ -1,5 +1,7 @@
 @echo off
 
+set PATH=%PATH%;%WINDIR%\SYSTEM32
+
 taskkill /f /t /fi "services eq ngp*"
 taskkill /F /T /IM AppHost.exe
 taskkill /F /T /IM NetHost.exe

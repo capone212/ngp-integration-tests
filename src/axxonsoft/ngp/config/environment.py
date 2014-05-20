@@ -8,18 +8,24 @@ import os
 import shlex
 import subprocess
 import time
+import _winreg
 
 class TestEnvirement(object):
-    
+
+    @staticmethod
+    def getInstallDir():
+        with _winreg.OpenKey(_winreg.HKEY_LOCAL_MACHINE, 
+"SOFTWARE\AxxonSoft\AxxonSmart\InstallPropertyInfo") as key:
+            return _winreg.QueryValueEx(key, u"InstallDir")[0]
+
     @staticmethod
     def getRsgDirectory():
-        return r"D:\temp\itest"
-        #return r"C:\Program Files (x86)\AxxonSoft\AxxonSmart\bin"
-    
+        return TestEnvirement.getInstallDir() + "bin"
+
     @staticmethod
     def getNgpShellDirrectory():
-        return r"C:\Program Files (x86)\AxxonSoft\AxxonSmart\bin"
-    
+        return TestEnvirement.getInstallDir() + "bin"
+
     @staticmethod
     def getLocalHostName():
         return  platform.node().upper()
@@ -27,7 +33,7 @@ class TestEnvirement(object):
 class CleanConfigurationError(Exception):
     pass
 
-def clean_ngp_configuration():  
+def clean_ngp_configuration():
     clean_script_path = os.path.join(os.path.dirname(os.path.realpath(__file__)),
                                      "ZeroConfig.bat")
     print clean_script_path
@@ -37,4 +43,6 @@ def clean_ngp_configuration():
         time.sleep(10)
         print "Clean up OK."
     except subprocess.CalledProcessError as err:
-        raise CleanConfigurationError("Error occurred while executing clean tool: %s " % err)
+        raise CleanConfigurationError("Error occurred while executing clean tool: %s " 
+% err)
+
